@@ -102,15 +102,17 @@ def crawl_gmarket_best(group_code=None):
 
     category1 = get_category1(soup)
 
-    result = {'category1': []}
+    result = []
     for category in category1:
         group_code = category.get('groupCode')
         if group_code:
             category2_with_products = get_category2_and_products(group_code)
-            result['category1'].append({
-                'category1': category['name'],
-                'data': category2_with_products
-            })
+            for category2 in category2_with_products:
+                result.append({
+                    'category1': category['name'],
+                    'category2': category2['category2'],
+                    'data': category2['products']
+                })
 
     write_to_csv(result)
     return result
